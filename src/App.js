@@ -2,10 +2,13 @@ import THREE, { WebGLRenderer, PerspectiveCamera, Scene, Vector3 } from 'three'
 import { Component } from 'react'
 import { GUI } from 'dat-gui'
 import { stringToColor } from './utils'
+import Audio from './Audio'
+
+const audio = new Audio();
 
 class params {
 	constructor() {
-		this.lineColor: 0xFFFFFF,
+		this.lineColor = 0xFFFFFF;
 		this.param = 1;
 	}
 }
@@ -55,6 +58,17 @@ export default class App extends Component {
 		this.camera.position.y = 200;
 		this.renderer.setSize(this.state.width, this.state.height);
 		this.props.stage.appendChild(this.renderer.domElement);
+
+		audio.addTrigger({
+			range: [0, 4], // bands in the 1024 array
+			threshold: 120, // arbitrary volume
+			cooldown: 10, // frames
+		}, this.bassTrigger)
+
+	}
+
+	bassTrigger() {
+		console.log('bass triggered');
 	}
 
 	doAnimation() {
@@ -65,6 +79,7 @@ export default class App extends Component {
 
 		
 		// do animation shit here
+		audio.analyse();
 
 
 		this.camera.position.x = Math.cos(orbit) * 200;
