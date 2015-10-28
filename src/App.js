@@ -60,15 +60,16 @@ export default class App extends Component {
 		this.props.stage.appendChild(this.renderer.domElement);
 
 		audio.addTrigger({
-			range: [0, 4], // bands in the 1024 array
-			threshold: 120, // arbitrary volume
+			range: [0, 1], // bands in the 1024 array
+			threshold: 130, // arbitrary volume
 			cooldown: 10, // frames
+			minAttack: 12,
 		}, this.bassTrigger)
 
 	}
 
-	bassTrigger() {
-		console.log('bass triggered');
+	bassTrigger(level) {
+		console.log('bass triggered', level);
 	}
 
 	doAnimation() {

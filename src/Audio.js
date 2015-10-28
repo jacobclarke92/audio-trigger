@@ -49,13 +49,13 @@ export default class {
 			}else{
 				const range = trigger.options.range;
 				let level = 0;
-				for(let f=range[0]; f<range[1]; f++) level += this.frequencies[f];
-				level = Math.floor(level/(range[1]-range[0]));
-				trigger.level = level;
-				if(trigger.level > trigger.options.threshold) {
+				for(let f=range[0]; f<range[1]+1; f++) level += this.frequencies[f];
+				level = Math.floor(level/ ((range[1]-range[0])+1));
+				if(trigger.level > trigger.options.threshold && level-trigger.level > trigger.options.minAttack) {
 					trigger.counter = trigger.options.cooldown;
-					trigger.callback();
+					trigger.callback(level);
 				}
+				trigger.level = level;
 			}
 		}
 		// this.frequencies[10] > 50 && console.log(this.frequencies[10]);

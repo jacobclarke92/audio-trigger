@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var http = require('http');
 var https = require('https');
 var express = require('express');
 var webpack = require('webpack');
@@ -23,5 +24,7 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.use(express.static('./'));
 
 // init local server
+var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8080);
 httpsServer.listen(3000);

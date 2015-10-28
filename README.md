@@ -1,3 +1,5 @@
+**WIP**
+
 Install dependencies
 
 `npm install`
@@ -7,9 +9,9 @@ Newer versions of chrome only allow mic/camera access on secure domains, so...
 
 Generate SSL certificate to run https server:
 
-`chmod +x genrsa.sh
+`chmod +x genrsa.sh`
 
-./genrsa.sh`
+`./genrsa.sh`
 
 (Enter your certificate details)
 
