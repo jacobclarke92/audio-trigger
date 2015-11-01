@@ -10,6 +10,7 @@ export default class {
 		this.frequencies = new Uint8Array(1024)
 		this.triggers = [];
 		this.request();
+		this.gain = 1;
 	}
 
 	request() {
@@ -39,6 +40,10 @@ export default class {
 		this.triggers.push({options, callback, counter: 0});
 	}
 
+	setGain(gain) {
+		this.gain = gain;
+	}
+
 	analyse() {
 		if(!this.audio || !this.analyser) return;
 		this.frequencies = this.analyser.frequencies();
@@ -49,7 +54,7 @@ export default class {
 			}else{
 				const range = trigger.options.range;
 				let level = 0;
-				for(let f=range[0]; f<range[1]+1; f++) level += this.frequencies[f];
+				for(let f=range[0]; f<range[1]+1; f++) level += this.frequencies[f]*this.gain;
 				level = Math.floor(level/ ((range[1]-range[0])+1));
 				if(trigger.level > trigger.options.threshold && level-trigger.level > trigger.options.minAttack) {
 					trigger.counter = trigger.options.cooldown;
@@ -60,6 +65,10 @@ export default class {
 		}
 		// this.frequencies[10] > 50 && console.log(this.frequencies[10]);
 		// this.frequencies.map((freq, i) => freq > 30 && console.log(i));
+	}
+
+	getFrequences() {
+		return this.frequencies;
 	}
 
 }
